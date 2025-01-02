@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const database = require('../db/database');
 
-const Extrato = database.define('extratos',{
+const Lancamentos = database.define('lancamentos',{
     id:{
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -19,19 +19,19 @@ const Extrato = database.define('extratos',{
     tipo:{
         type: Sequelize.INTEGER,
         allowNull: false
+        // tiop 1 = Despesa, tipo 2 = Receita
     },
     situacao: {
         type: Sequelize.INTEGER,
         allowNull: true
+    },
+    dataPagamento: {
+        type: Sequelize.DATE,
+        allowNull: false,
+       
     }
-})
-;
+});
 
+// Lancamentos.sync({force: true});
 
-// Extrato.sync({alter: true}).then(()=>{
-//     console.log("banco de dados criado com sucesso");
-// }).catch((err) =>{
-//     console.log("Erro: ao tentar criar banco de dados" + err)
-// })
-
-module.exports = Extrato; 
+module.exports = Lancamentos;
