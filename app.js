@@ -1,10 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-app.use(express.json());
+const { Op } = require('sequelize');
 
 const database = require('./db/database');
 const Lancamentos = require('./models/Lancamentos');
-const { Op } = require('sequelize');
+
+app.use(express.json());
+app.use(cors());
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-PINGOTHER, Authorization');
+    next();
+});
 
 app.get('/', (req, res) => {
     res.send("extrato financeiro");
@@ -50,7 +60,7 @@ app.get('/listar-lancamentos', async (req, res) => {
     }
 });
 
-// Listar lançamentos por mês e ano
+// Listar lançamentos por mês e ano e saldo final
 app.get('/listar-lancamentos/:mes/:ano', async (req, res) => {
     var mes = req.params.mes - 1;
     var ano = req.params.ano;
@@ -68,7 +78,7 @@ app.get('/listar-lancamentos/:mes/:ano', async (req, res) => {
         attributes: ['id', 'nome', 'valor', 'tipo', 'situacao', 'dataPagamento']
     });
         
-    const valorPagamento = await Lancamentos.sum('valor', {
+    const valorPago = await Lancamentos.sum('valor', {
         where: {
             tipo: "1",
             dataPagamento: {
@@ -77,7 +87,7 @@ app.get('/listar-lancamentos/:mes/:ano', async (req, res) => {
         }
     });
 
-    const valorReceita = await Lancamentos.sum('valor', {
+    const valorRecebido = await Lancamentos.sum('valor', {
         where: {
             tipo: "2",
             dataPagamento: {
@@ -86,14 +96,14 @@ app.get('/listar-lancamentos/:mes/:ano', async (req, res) => {
         }
     });
     
-    const valorFinal = new Number(valorReceita) - new Number(valorPagamento);
-
+    const saldoFinal= new Number(valorRecebido) - new Number(valorPago);
     return res.status(200).json({
         lancamento,
-        valorFinal
+        saldoFinal,
+        valorPago,
+        valorRecebido
     });
 });
-
 
 // Busca lançamento por ID
 app.get('/buscar-lancamentos/:id', async (req, res) => {

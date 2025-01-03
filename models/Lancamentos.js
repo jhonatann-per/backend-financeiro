@@ -19,11 +19,12 @@ const Lancamentos = database.define('lancamentos',{
     tipo:{
         type: Sequelize.INTEGER,
         allowNull: false
-        // tiop 1 = Despesa, tipo 2 = Receita
+        // tipo 1 = Despesa, tipo 2 = Receita
     },
     situacao: {
         type: Sequelize.INTEGER,
         allowNull: true
+        // situacao 1 = Pago, situacao 2 = Pendente, situacao 3 = Recebido
     },
     dataPagamento: {
         type: Sequelize.DATE,
@@ -32,6 +33,6 @@ const Lancamentos = database.define('lancamentos',{
     }
 });
 
-// Lancamentos.sync({force: true});
+// Lancamentos.sync();
 
 module.exports = Lancamentos;

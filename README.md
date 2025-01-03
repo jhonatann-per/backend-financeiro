@@ -1,7 +1,7 @@
-SEQUENCIA PARA CRIAR O PROJETO
-
-### Descrição do Projeto
+# Descrição do Projeto
 Este projeto é um sistema financeiro que verifica suas contas e saldo do mês com histórico dos meses anteriores. Vamos utilizar para esse projeto React.js no front-end com Styled Components e no back-end Node.js com Express.
+
+## SEQUENCIA DE COMANDOS PARA CRIAÇÃO DO PROJETO:
 
 CRIA O ARQUIVO PACKAGE.JSON
 ### npm init
@@ -20,3 +20,6 @@ INSTALA O DOTENV: <!-- Dotenv é uma biblioteca que carrega variáveis de ambien
 
 PARA CRIAR O BANCO DE DADOS: 
 ### create database financeiro character set utf8mb4 collate utf8mb4_unicode_ci;
+
+INSTALA O CORS: <!-- CORS (Cross-Origin Resource Sharing) é um mecanismo que permite que recursos restritos em uma página web sejam solicitados a partir de outro domínio fora do domínio ao qual o recurso pertence. -->
+### npm install cors
