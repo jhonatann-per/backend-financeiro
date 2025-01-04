@@ -128,6 +128,45 @@ app.get('/buscar-lancamentos/:id', async (req, res) => {
     }
 });
 
+// Excluir lançamento
+app.delete('/excluir-lancamento/:id', async (req, res) => {
+    try {
+      const dados = req.params.id;
+      await Lancamentos.destroy({
+        where: { id: dados }
+      });
+      return res.json({
+        erro: false,
+        mensagem: "Lançamento excluído com sucesso!"
+      });
+    } catch (error) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Erro: Lançamento não excluído!"
+      });
+    }
+  });
+  
+// Editar lançamento
+app.put('/editar-lancamento/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const dados = req.body;
+        await Lancamentos.update(dados, {
+            where: { id }
+        });
+        return res.json({
+            erro: false,
+            mensagem: "Lançamento editado com sucesso!"
+        });
+    } catch (error) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Lançamento não editado!"
+        });
+    }
+});
+
 app.listen(8080, () => {
     console.log(`Servidor rodando na porta http://localhost:8080`);
 });
